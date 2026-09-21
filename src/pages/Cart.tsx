@@ -39,7 +39,7 @@ export default function Cart() {
   const { items, loading, updateQuantity, removeItem } = useCart();
   const [now] = useState(new Date());
 
-  usePageMeta("سلة الكتب — منصة مستر محمد إبراهيم");
+  usePageMeta("سلة الكتب — منصة Motivai");
 
   const lines = useMemo(
     () =>

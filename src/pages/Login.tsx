@@ -138,7 +138,7 @@ const Login = () => {
   return (
     <AuthLayout
       title="تسجيل الدخول"
-      subtitle="أهلاً بعودتك إلى منصة مستر محمد إبراهيم"
+      subtitle="أهلاً بعودتك إلى منصة Motivai"
       footer={
         <>
           ليس لديك حساب؟{" "}

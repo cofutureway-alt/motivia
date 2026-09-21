@@ -98,7 +98,7 @@ export default function Checkout() {
 
   const [submitting, setSubmitting] = useState(false);
 
-  usePageMeta("إتمام الشراء — منصة مستر محمد إبراهيم");
+  usePageMeta("إتمام الشراء — منصة Motivai");
 
   const lines = useMemo(
     () =>

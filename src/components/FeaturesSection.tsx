@@ -44,7 +44,7 @@ const FeaturesSection = () => {
             ليه تتعلم معانا؟
           </span>
           <h2 className="text-3xl md:text-5xl font-black text-foreground leading-tight">
-            طريقة تشرح الكيمياء
+            طريقة تشرح الدرس
             <br />
             <span className="text-primary">من غير حفظ أعمى</span>
           </h2>
@@ -74,7 +74,7 @@ const FeaturesSection = () => {
                   شرح مباشر تفاعلي يوصلك في بيتك
                 </h3>
                 <p className="text-muted-foreground leading-relaxed max-w-md">
-                  حصص مباشرة مع مستر محمد إبراهيم تسأل فيها وتتفاعل لحظة بلحظة،
+                  حصص مباشرة مع معلميك تسأل فيها وتتفاعل لحظة بلحظة،
                   وكل حصة بتتسجل وتفضل متاحة لك ترجع لها في أي وقت.
                 </p>
                 <Link

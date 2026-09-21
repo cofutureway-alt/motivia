@@ -57,7 +57,7 @@ const StagesSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          اختر صفك الدراسي وابدأ رحلتك نحو الدرجة النهائية في الكيمياء
+          اختر صفك الدراسي وابدأ رحلتك نحو التفوق الدراسي مع أفضل المعلمين
         </p>
 
         {stages === null ? (

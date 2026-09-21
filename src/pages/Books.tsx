@@ -107,7 +107,7 @@ export default function Books() {
   const [subjectId, setSubjectId] = useState<string>("all");
   const [stageId, setStageId] = useState<string>("all");
 
-  usePageMeta("الكتب — منصة مستر محمد إبراهيم");
+  usePageMeta("الكتب — منصة Motivai");
 
   useEffect(() => {
     (async () => {

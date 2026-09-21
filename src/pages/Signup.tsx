@@ -214,7 +214,7 @@ const StudentForm = ({
       const { error: signInErr } = await supabase.auth.signInWithPassword({ email: authEmail, password });
       if (!signInErr) {
         setLoading(false);
-        toast.success("تم تسجيل الدخول بنجاح، أهلاً بك في منصة مستر محمد إبراهيم");
+        toast.success("تم تسجيل الدخول بنجاح، أهلاً بك في منصة Motivai");
         navigate(redirectTo, { replace: true });
         return;
       }
@@ -231,7 +231,7 @@ const StudentForm = ({
       navigate("/login", { replace: true });
       return;
     }
-    toast.success("تم إنشاء حسابك بنجاح، أهلاً بك في منصة مستر محمد إبراهيم");
+    toast.success("تم إنشاء حسابك بنجاح، أهلاً بك في منصة Motivai");
     navigate(redirectTo, { replace: true });
   };
 

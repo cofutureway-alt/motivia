@@ -54,6 +54,13 @@ export function seoFilesPlugin() {
         next();
       });
     },
+    transformIndexHtml(html) {
+      // Guarantee %VITE_SITE_URL% replacement in index.html regardless of Vite's built-in env handling.
+      if (!files) return html;
+      const base = files.robots.match(/Sitemap: (.+)\/sitemap\.xml/)?.[1];
+      if (!base) return html;
+      return html.replace(/%VITE_SITE_URL%/g, base);
+    },
     closeBundle() {
       if (!files) return;
       const out = path.resolve(process.cwd(), "dist");

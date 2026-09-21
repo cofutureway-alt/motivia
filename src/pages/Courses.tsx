@@ -20,7 +20,7 @@ interface Named {
 }
 
 const Courses = () => {
-  usePageMeta("الكورسات", "استكشف جميع كورسات الكيمياء على منصة مستر محمد إبراهيم — شروحات واختبارات ومتابعة مستمرة.");
+  usePageMeta("الكورسات", "استكشف جميع الكورسات على منصة Motivai — شروحات واختبارات ومتابعة مستمرة.");
   const courses = usePublicCourses();
   const progressMap = useMyProgressMap();
   // When active, the student only sees their own grade — stage filter is pinned.
@@ -99,13 +99,13 @@ const Courses = () => {
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Atom size={14} className="text-primary" />
-              <span className="text-xs font-bold text-primary">كورسات الكيمياء</span>
+              <span className="text-xs font-bold text-primary">كورسات لكل المراحل</span>
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-foreground">
               كل <span className="text-primary">الكورسات</span>
             </h1>
             <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
-              اختر صفك الدراسي وابدأ رحلتك نحو الدرجة النهائية في الكيمياء.
+              اختر صفك الدراسي وابدأ رحلتك نحو التفوق الدراسي مع أفضل المعلمين.
             </p>
           </motion.div>
 
