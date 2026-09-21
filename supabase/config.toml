@@ -1,0 +1,27 @@
+project_id = "itzinndvggtghztpdnhc"
+
+[functions.admin-create-student]
+verify_jwt = true
+
+[functions.admin-delete-student]
+verify_jwt = true
+
+[functions.admin-create-admin]
+verify_jwt = true
+
+[functions.admin-create-instructor]
+verify_jwt = true
+
+# Webhooks are called by external payment gateways (PayMob / Kashier / Fawaterak / Rasvio)
+# without Supabase JWTs, so JWT verification must be disabled for these:
+[functions.paymob-webhook]
+verify_jwt = false
+
+[functions.kashier-webhook]
+verify_jwt = false
+
+[functions.fawaterak-webhook]
+verify_jwt = false
+
+[functions.rasvio-webhook]
+verify_jwt = false

@@ -1,0 +1,1 @@
+ALTER TABLE public.payment_gateway_methods ADD COLUMN IF NOT EXISTS description text;

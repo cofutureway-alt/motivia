@@ -1,0 +1,1 @@
+INSERT INTO public.qr_display_settings (id) VALUES (1) ON CONFLICT (id) DO NOTHING;

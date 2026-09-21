@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Title & Meta Tags -->
+    <title>Motivai | منصتك للتفوق الدراسي</title>
+    <meta name="title" content="Motivai | منصة تعليمية للكورسات والمعلمين والكتب" />
+    <meta name="description" content="Motivai منصة تعليمية تجمع الطلاب بالمعلمين والكورسات والكتب المناسبة لكل مادة ومرحلة دراسية في مصر والعالم العربي." />
+    <meta name="keywords" content="Motivai, منصة تعليمية, كورسات اونلاين, معلمون, كتب تعليمية, مراحل دراسية, الثانوية العامة, الإعدادية, التعليم المصري, دروس اونلاين, تعلم عن بعد" />
+    <meta name="author" content="Motivai" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#6f52d9" />
+    <meta name="geo.region" content="EG" />
+    <meta name="geo.placename" content="Egypt" />
+    <meta name="geo.position" content="26.8206;30.8025" />
+    <meta name="ICBM" content="26.8206, 30.8025" />
+
+    <!-- Canonical & Alternate Links (domain configured via VITE_SITE_URL at build time is applied per-page; static fallback below) -->
+    <link rel="icon" href="/logo.png" type="image/png" />
+    <link rel="shortcut icon" href="/logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Motivai" />
+    <meta property="og:title" content="Motivai | منصتك للتفوق الدراسي" />
+    <meta property="og:description" content="تعلم مع معلمين موثوقين واكتشف الكورسات والكتب المناسبة لمسارك الدراسي." />
+    <meta property="og:image" content="/motivai-logo.png" />
+    <meta property="og:image:alt" content="شعار Motivai" />
+    <meta property="og:locale" content="ar_EG" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Motivai | منصتك للتفوق الدراسي" />
+    <meta name="twitter:description" content="كورسات ومعلمون وكتب لكل مادة ومرحلة دراسية." />
+    <meta name="twitter:image" content="/motivai-logo.png" />
+
+    <!-- Typography & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Schema.org JSON-LD (Structured Data) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "EducationalOrganization",
+          "@id": "#organization",
+          "name": "Motivai",
+          "alternateName": ["Motivai Learning Platform", "منصة Motivai التعليمية"],
+          "url": "/",
+          "logo": "/motivai-logo.png",
+          "image": "/motivai-logo.png",
+          "description": "منصة تعليمية تجمع الطلاب بالمعلمين والكورسات والكتب المناسبة لمسارهم الدراسي.",
+          "knowsAbout": ["التعليم الإلكتروني", "الكورسات التعليمية", "الكتب الدراسية", "المراحل الدراسية"],
+          "areaServed": [
+            { "@type": "Country", "name": "Egypt" },
+            { "@type": "Place", "name": "Arab World" }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "#website",
+          "url": "/",
+          "name": "Motivai | منصتك للتفوق الدراسي",
+          "alternateName": ["Motivai", "منصة Motivai التعليمية"],
+          "inLanguage": ["ar", "en"],
+          "publisher": {
+            "@id": "#organization"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <script>
+      // Canonical + og:url from build-time env (Vite replaces %VITE_*% in index.html).
+      try {
+        var siteUrl = "%VITE_SITE_URL%";
+        if (/^https?:\/\//.test(siteUrl)) {
+          var base = siteUrl.replace(/\/+$/, "");
+          var l = document.createElement("link");
+          l.rel = "canonical";
+          l.href = base + "/";
+          document.head.appendChild(l);
+          var m = document.createElement("meta");
+          m.setAttribute("property", "og:url");
+          m.setAttribute("content", base + "/");
+          document.head.appendChild(m);
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
