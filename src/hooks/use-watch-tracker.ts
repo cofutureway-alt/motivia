@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { publicEnv } from "@/config/public-env";
 
 interface Params {
   userId: string | undefined;
@@ -110,7 +111,7 @@ export function useWatchTracker({ userId, lessonId, courseId }: Params) {
       dirtyRef.current = false;
       try {
         if (opts?.keepalive) {
-          const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/lesson_watch_progress?on_conflict=user_id,lesson_id`;
+          const url = `${publicEnv("VITE_SUPABASE_URL")}/rest/v1/lesson_watch_progress?on_conflict=user_id,lesson_id`;
           const { data: sess } = await supabase.auth.getSession();
           const token = sess.session?.access_token;
           const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;

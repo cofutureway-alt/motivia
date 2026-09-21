@@ -25,8 +25,9 @@ import {
   PaymobConfig,
 } from "@/lib/paymob-api";
 import GatewayMethodsPanel from "@/components/admin/GatewayMethodsPanel";
+import { publicEnv } from "@/config/public-env";
 
-const WEBHOOK_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/paymob-webhook`;
+const WEBHOOK_URL = `${publicEnv("VITE_SUPABASE_URL")}/functions/v1/paymob-webhook`;
 
 export default function AdminPaymobSettings() {
   const navigate = useNavigate();

@@ -35,7 +35,7 @@ export function seoFilesPlugin() {
   return {
     name: "seo-files",
     configResolved(config) {
-      const siteUrl = config.env.VITE_SITE_URL || "https://example.com";
+      const siteUrl = config.env.VITE_SITE_URL || "https://www.motivai-edu.online";
       files = buildFiles(siteUrl);
     },
     configureServer(server) {

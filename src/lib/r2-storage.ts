@@ -1,11 +1,12 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { publicEnv } from "@/config/public-env";
 
-// All values come from env (.env) — no secrets hardcoded in source.
-export const R2_PUBLIC_URL = (import.meta.env.VITE_R2_PUBLIC_URL || "").replace(/\/$/, "");
-export const R2_ACCOUNT_ID = import.meta.env.VITE_R2_ACCOUNT_ID || "";
-export const R2_ACCESS_KEY_ID = import.meta.env.VITE_R2_ACCESS_KEY_ID || "";
-export const R2_SECRET_ACCESS_KEY = import.meta.env.VITE_R2_SECRET_ACCESS_KEY || "";
-export const R2_BUCKET_NAME = import.meta.env.VITE_R2_BUCKET_NAME || "";
+// Values come from env (.env) with committed public fallbacks (see src/config/public-env.ts).
+export const R2_PUBLIC_URL = (publicEnv("VITE_R2_PUBLIC_URL") || "").replace(/\/$/, "");
+export const R2_ACCOUNT_ID = publicEnv("VITE_R2_ACCOUNT_ID") || "";
+export const R2_ACCESS_KEY_ID = publicEnv("VITE_R2_ACCESS_KEY_ID") || "";
+export const R2_SECRET_ACCESS_KEY = publicEnv("VITE_R2_SECRET_ACCESS_KEY") || "";
+export const R2_BUCKET_NAME = publicEnv("VITE_R2_BUCKET_NAME") || "";
 
 export const isR2Configured = () =>
   !!(R2_PUBLIC_URL && R2_ACCOUNT_ID && R2_ACCESS_KEY_ID && R2_SECRET_ACCESS_KEY && R2_BUCKET_NAME);

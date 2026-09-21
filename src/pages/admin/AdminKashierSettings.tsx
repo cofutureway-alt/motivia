@@ -25,8 +25,9 @@ import {
   KashierConfig,
 } from "@/lib/kashier-api";
 import GatewayMethodsPanel from "@/components/admin/GatewayMethodsPanel";
+import { publicEnv } from "@/config/public-env";
 
-const WEBHOOK_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/kashier-webhook`;
+const WEBHOOK_URL = `${publicEnv("VITE_SUPABASE_URL")}/functions/v1/kashier-webhook`;
 
 export default function AdminKashierSettings() {
   const navigate = useNavigate();

@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { publicEnv } from "@/config/public-env";
 
 // These WhatsApp tables are provisioned by the WhatsApp migrations but are not
 // present in the checked-in generated Supabase types yet.
@@ -299,9 +300,10 @@ export async function sendWhatsappTestMessage(params: {
   const token = sessionData?.session?.access_token;
   if (!token) throw new Error("غير مصرح: يجب تسجيل الدخول أولاً");
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ||
+  const supabaseUrl =
+    publicEnv("VITE_SUPABASE_URL") ||
     (supabase as any).supabaseUrl ||
-    `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co`;
+    `https://${publicEnv("VITE_SUPABASE_PROJECT_ID")}.supabase.co`;
 
   const res = await fetch(`${supabaseUrl}/functions/v1/send-whatsapp-test`, {
     method: "POST",

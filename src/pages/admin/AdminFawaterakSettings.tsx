@@ -25,8 +25,9 @@ import {
   FawaterakConfig,
 } from "@/lib/fawaterak-api";
 import GatewayMethodsPanel from "@/components/admin/GatewayMethodsPanel";
+import { publicEnv } from "@/config/public-env";
 
-const WEBHOOK_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fawaterak-webhook`;
+const WEBHOOK_URL = `${publicEnv("VITE_SUPABASE_URL")}/functions/v1/fawaterak-webhook`;
 
 export default function AdminFawaterakSettings() {
   const navigate = useNavigate();
