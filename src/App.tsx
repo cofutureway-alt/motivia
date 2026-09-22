@@ -13,6 +13,8 @@ import StudentLayout from "@/components/student/StudentLayout";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import AuthCallback from "./pages/AuthCallback";
+import Onboarding from "./pages/Onboarding";
 import ParentLayout from "@/components/parent/ParentLayout";
 import ParentDashboard from "./pages/parent/ParentDashboard";
 import ParentLinkStudent from "./pages/parent/ParentLinkStudent";
@@ -72,6 +74,7 @@ import RedeemPage from "./pages/RedeemPage";
 import PublicRedeemCode from "./pages/PublicRedeemCode";
 import NotificationsPage from "./pages/NotificationsPage";
 import AdminWhatsappSettings from "./pages/admin/AdminWhatsappSettings";
+import AdminGoogleAuthSettings from "./pages/admin/AdminGoogleAuthSettings";
 import AdminWhatsappLog from "./pages/admin/AdminWhatsappLog";
 import AdminGradeLockSettings from "./pages/admin/AdminGradeLockSettings";
 import PaymentKashierReturn from "./pages/PaymentKashierReturn";
@@ -135,6 +138,8 @@ const App = () => (
             <Route path="/login" element={<RequireGuest><Login /></RequireGuest>} />
             <Route path="/signup" element={<RequireGuest><Signup /></RequireGuest>} />
             <Route path="/parent-signup" element={<RequireGuest><Signup /></RequireGuest>} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/bundles" element={<Bundles />} />
             <Route path="/branches" element={<Branches />} />
@@ -284,6 +289,7 @@ const App = () => (
               <Route path="settings/branding" element={<AdminBrandingSettings />} />
               <Route path="settings/homepage" element={<AdminHomepageSettings />} />
               <Route path="settings/whatsapp" element={<AdminWhatsappSettings />} />
+              <Route path="settings/google-auth" element={<AdminGoogleAuthSettings />} />
               <Route path="settings/grade-lock" element={<AdminGradeLockSettings />} />
               <Route path="whatsapp-log" element={<AdminWhatsappLog />} />
               <Route path="cards" element={<AdminCards />} />

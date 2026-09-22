@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
+import { needsOnboarding } from "@/components/auth/RequireAuth";
 
 interface Props {
   children: ReactNode;
@@ -20,6 +21,11 @@ const RequireGuest = ({ children }: Props) => {
   }
 
   if (user) {
+    // A Google account that hasn't finished onboarding must not slip into the app.
+    if (needsOnboarding(profile)) {
+      return <Navigate to="/onboarding" replace />;
+    }
+
     const params = new URLSearchParams(location.search);
     const redirectParam = params.get("redirect");
 

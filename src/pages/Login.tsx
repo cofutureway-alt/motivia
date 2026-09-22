@@ -8,12 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import AuthLayout from "@/components/auth/AuthLayout";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
+import { usePlatformSettings } from "@/hooks/use-platform-settings";
 import { isValidEgPhone, looksLikePhone, normalizeEgPhone, syntheticAuthEmail } from "@/lib/phone";
 import { getArabicAuthErrorMessage } from "@/lib/auth-errors";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { settings } = usePlatformSettings();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -218,11 +221,23 @@ const Login = () => {
                 <ArrowLeft className="w-4 h-4" />
               </>
             )}
-          </Button>
-        </motion.div>
-      </form>
-    </AuthLayout>
-  );
-};
+            </Button>
+          </motion.div>
+        </form>
+
+        {settings.google_auth_enabled === true && (
+          <div className="mt-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-border" />
+              <span className="text-xs text-muted-foreground">أو</span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+            <GoogleAuthButton mode="login" next={from} disabled={loading} />
+          </div>
+        )}
+      </AuthLayout>
+    );
+  };
+
 
 export default Login;

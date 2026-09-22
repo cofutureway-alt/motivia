@@ -3,6 +3,7 @@ import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, LogOut, Menu, Users, LinkIcon, UserCircle2, X, Bell } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { needsOnboarding } from "@/components/auth/RequireAuth";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -62,6 +63,7 @@ const ParentLayout = () => {
 
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
+  if (needsOnboarding(profile)) return <Navigate to="/onboarding" replace />;
   if (profile?.role === "admin") return <Navigate to="/admin" replace />;
   if (profile?.role === "student") return <Navigate to="/dashboard" replace />;
 

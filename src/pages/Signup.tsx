@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import AuthLayout from "@/components/auth/AuthLayout";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
+import { usePlatformSettings } from "@/hooks/use-platform-settings";
 import DynamicRegistrationField from "@/components/auth/DynamicRegistrationField";
 import { useRegistrationFields } from "@/hooks/use-registration-fields";
 import {
@@ -24,6 +26,7 @@ type Role = "student" | "parent";
 const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { settings } = usePlatformSettings();
   const redirectTo = new URLSearchParams(location.search).get("redirect") ?? "/dashboard";
   const initialRole: Role = location.pathname.includes("parent") ? "parent" : "student";
   const [role, setRole] = useState<Role>(initialRole);
@@ -60,6 +63,17 @@ const Signup = () => {
           label="حساب ولي أمر"
         />
       </div>
+
+      {settings.google_auth_enabled === true && (
+        <div className="space-y-4 mb-6">
+          <GoogleAuthButton mode="signup" role={role} next={redirectTo} />
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-muted-foreground">أو سجّل برقم الهاتف</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         <motion.div

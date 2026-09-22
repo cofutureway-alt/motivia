@@ -14,6 +14,7 @@ export interface Profile {
   guardian_phone: string | null;
   email: string | null;
   auth_email: string | null;
+  onboarding_completed?: boolean | null;
 }
 
 interface AuthContextValue {

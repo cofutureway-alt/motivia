@@ -7,8 +7,17 @@ interface Props {
   children: ReactNode;
 }
 
+/** True when this account still must finish the post-Google-signup onboarding. */
+export function needsOnboarding(profile: { role?: string | null; onboarding_completed?: boolean | null } | null) {
+  return (
+    !!profile &&
+    (profile.role === "student" || profile.role === "parent") &&
+    profile.onboarding_completed === false
+  );
+}
+
 const RequireAuth = ({ children }: Props) => {
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -22,6 +31,11 @@ const RequireAuth = ({ children }: Props) => {
   if (!user) {
     const redirect = encodeURIComponent(location.pathname + location.search);
     return <Navigate to={`/login?redirect=${redirect}`} replace />;
+  }
+
+  // Google-created accounts must complete onboarding before reaching any app area.
+  if (needsOnboarding(profile) && location.pathname !== "/onboarding") {
+    return <Navigate to="/onboarding" replace />;
   }
 
   return <>{children}</>;

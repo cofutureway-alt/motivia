@@ -72,16 +72,9 @@ const Footer = () => {
 
   const logoUrl = getLogoUrl(settings, theme);
 
-  // Use DB social links if any, otherwise fall back to hardcoded defaults so the
-  // footer is never empty before the admin first configures things.
-  const socialLinks =
-    settings.social_links.length > 0
-      ? settings.social_links
-      : [
-          { platform: "YouTube", url: "https://www.youtube.com/@elsa3i" },
-          { platform: "Facebook", url: "https://www.facebook.com/Elsa3i.shr3i" },
-          { platform: "Telegram", url: "https://t.me/elsa3i" },
-        ];
+  // No hardcoded fallback: an empty list in the settings means the admin removed
+  // every link, so the footer must reflect that and stay empty.
+  const socialLinks = settings.social_links;
 
   return (
     <footer className="py-12 border-t border-border bg-card relative overflow-hidden">
@@ -91,7 +84,7 @@ const Footer = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <IslamicDivider className="mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className={`grid grid-cols-1 ${socialLinks.length > 0 ? "md:grid-cols-3" : "md:grid-cols-2"} gap-8`}>
           <div className="space-y-3">
             <div className="flex items-center">
               <img src="/motivai-logo.png" alt="شعار Motivai" className="h-14 w-16 object-contain" />
@@ -109,24 +102,26 @@ const Footer = () => {
               <Link to="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">لوحة الطالب</Link>
             </div>
           </div>
-          <div className="space-y-3">
-            <h4 className="font-bold text-sm">تواصل معنا</h4>
-            <div className="flex items-center gap-3 flex-wrap">
-              {socialLinks.map((link, i) => (
-                <a
-                  key={i}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.platform}
-                  title={link.platform}
-                  className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  {getSocialIcon(link.platform)}
-                </a>
-              ))}
+          {socialLinks.length > 0 && (
+            <div className="space-y-3">
+              <h4 className="font-bold text-sm">تواصل معنا</h4>
+              <div className="flex items-center gap-3 flex-wrap">
+                {socialLinks.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.platform}
+                    title={link.platform}
+                    className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    {getSocialIcon(link.platform)}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>جميع الحقوق محفوظة لمنصة Motivai {new Date().getFullYear()} ©</p>

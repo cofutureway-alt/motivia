@@ -16,6 +16,8 @@ export interface PlatformSettings {
   hero_cta_url: string | null;
   /** Students only see courses assigned to their grade (when signup form has stage_id). */
   grade_lock_enabled?: boolean | null;
+  /** Master switch for the Google login/signup button. */
+  google_auth_enabled?: boolean | null;
 }
 
 export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
@@ -40,6 +42,7 @@ function normalize(row: any): PlatformSettings {
     hero_cta_label: row.hero_cta_label ?? DEFAULT_PLATFORM_SETTINGS.hero_cta_label,
     hero_cta_url: row.hero_cta_url ?? DEFAULT_PLATFORM_SETTINGS.hero_cta_url,
     grade_lock_enabled: typeof row.grade_lock_enabled === "boolean" ? row.grade_lock_enabled : false,
+    google_auth_enabled: typeof row.google_auth_enabled === "boolean" ? row.google_auth_enabled : false,
   };
 }
 

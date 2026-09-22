@@ -34,6 +34,14 @@ export function getArabicAuthErrorMessage(error: any): string {
     return "بيانات الدخول غير صحيحة.";
   }
 
+  if (
+    msg.includes("user_not_found") ||
+    msg.includes("user not found") ||
+    msg.includes("no user found")
+  ) {
+    return "هذا الحساب غير موجود، يرجى إنشاء حساب أولاً.";
+  }
+
   if (msg.includes("invalid") && msg.includes("email")) {
     return "البريد الإلكتروني غير صالح.";
   }

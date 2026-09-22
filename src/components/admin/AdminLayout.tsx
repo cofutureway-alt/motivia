@@ -37,6 +37,7 @@ import {
   Truck,
   PlayCircle,
   LockKeyhole,
+  KeyRound,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePlatformSettings, getLogoUrl } from "@/hooks/use-platform-settings";
@@ -130,6 +131,7 @@ const nav: NavEntry[] = [
       { to: "/admin/settings/homepage", label: "إعدادات الصفحة الرئيسية", icon: Home },
       { to: "/admin/settings/grade-lock", label: "قفل الدرجات", icon: LockKeyhole },
       { to: "/admin/settings/whatsapp", label: "إعدادات واتساب", icon: MessageSquare },
+      { to: "/admin/settings/google-auth", label: "تسجيل الدخول بجوجل", icon: KeyRound },
       { to: "/admin/whatsapp-log", label: "سجل رسائل واتساب", icon: FileText },
     ],
   },

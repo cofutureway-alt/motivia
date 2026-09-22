@@ -11,6 +11,7 @@ import {
   MessageSquare,
   FileText,
   GraduationCap,
+  KeyRound,
 } from "lucide-react";
 
 const CARDS = [
@@ -55,6 +56,12 @@ const CARDS = [
     icon: MessageSquare,
     title: "إعدادات واتساب (Rasvio)",
     desc: "إدارة أرقام واتساب المربوطة، تفعيل إشعارات الطلاب والأبناء والإدارة، وتخصيص نماذج الرسائل.",
+  },
+  {
+    to: "/admin/settings/google-auth",
+    icon: KeyRound,
+    title: "تسجيل الدخول بحساب جوجل",
+    desc: "تفعيل وإيقاف زر الدخول/الإنشاء بحساب جوجل، وخطوات ربط مزود جوجل بمشروع Supabase.",
   },
   {
     to: "/admin/whatsapp-log",
