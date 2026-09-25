@@ -75,6 +75,8 @@ import PublicRedeemCode from "./pages/PublicRedeemCode";
 import NotificationsPage from "./pages/NotificationsPage";
 import AdminWhatsappSettings from "./pages/admin/AdminWhatsappSettings";
 import AdminGoogleAuthSettings from "./pages/admin/AdminGoogleAuthSettings";
+import AdminChatbotSettings from "./pages/admin/AdminChatbotSettings";
+import ChatWidget from "./components/chat/ChatWidget";
 import AdminWhatsappLog from "./pages/admin/AdminWhatsappLog";
 import AdminGradeLockSettings from "./pages/admin/AdminGradeLockSettings";
 import PaymentKashierReturn from "./pages/PaymentKashierReturn";
@@ -133,6 +135,7 @@ const App = () => (
         <AuthProvider>
           <BadgeCelebration />
           <MobileBottomNav />
+          <ChatWidget />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<RequireGuest><Login /></RequireGuest>} />
@@ -290,6 +293,7 @@ const App = () => (
               <Route path="settings/homepage" element={<AdminHomepageSettings />} />
               <Route path="settings/whatsapp" element={<AdminWhatsappSettings />} />
               <Route path="settings/google-auth" element={<AdminGoogleAuthSettings />} />
+              <Route path="settings/chatbot" element={<AdminChatbotSettings />} />
               <Route path="settings/grade-lock" element={<AdminGradeLockSettings />} />
               <Route path="whatsapp-log" element={<AdminWhatsappLog />} />
               <Route path="cards" element={<AdminCards />} />

@@ -18,6 +18,8 @@ export interface PlatformSettings {
   grade_lock_enabled?: boolean | null;
   /** Master switch for the Google login/signup button. */
   google_auth_enabled?: boolean | null;
+  /** Master switch for the floating chatbot widget. */
+  chatbot_enabled?: boolean | null;
 }
 
 export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
@@ -43,6 +45,7 @@ function normalize(row: any): PlatformSettings {
     hero_cta_url: row.hero_cta_url ?? DEFAULT_PLATFORM_SETTINGS.hero_cta_url,
     grade_lock_enabled: typeof row.grade_lock_enabled === "boolean" ? row.grade_lock_enabled : false,
     google_auth_enabled: typeof row.google_auth_enabled === "boolean" ? row.google_auth_enabled : false,
+    chatbot_enabled: typeof row.chatbot_enabled === "boolean" ? row.chatbot_enabled : false,
   };
 }
 

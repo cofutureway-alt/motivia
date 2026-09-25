@@ -12,6 +12,7 @@ import {
   FileText,
   GraduationCap,
   KeyRound,
+  Bot,
 } from "lucide-react";
 
 const CARDS = [
@@ -56,6 +57,12 @@ const CARDS = [
     icon: MessageSquare,
     title: "إعدادات واتساب (Rasvio)",
     desc: "إدارة أرقام واتساب المربوطة، تفعيل إشعارات الطلاب والأبناء والإدارة، وتخصيص نماذج الرسائل.",
+  },
+  {
+    to: "/admin/settings/chatbot",
+    icon: Bot,
+    title: "مساعد المنصة (الشات بوت)",
+    desc: "ربط المساعد بمزود ذكاء اصطناعي، اختيار الموديل وتجربته، وتشغيل أو إيقاف الشات.",
   },
   {
     to: "/admin/settings/google-auth",
