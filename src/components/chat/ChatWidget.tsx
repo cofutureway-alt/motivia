@@ -6,6 +6,9 @@ import { usePlatformSettings } from "@/hooks/use-platform-settings";
 import { useChatHistory, type ChatMsg } from "@/hooks/use-chat-history";
 import { sendChatMessage, type ChatMessagePayload } from "@/lib/chat-api";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTheme } from "@/contexts/ThemeContext";
+import { getLogoUrl } from "@/hooks/use-platform-settings";
+import RichMessage from "@/components/chat/RichMessage";
 import { cn } from "@/lib/utils";
 
 const QUICK_QUESTIONS = [
@@ -24,17 +27,23 @@ const ChatMessageRow = ({ role, content }: ChatMessageRowProps) => (
   <motion.div
     initial={{ opacity: 0, y: 8 }}
     animate={{ opacity: 1, y: 0 }}
-    className={role === "user" ? "flex justify-end" : "flex justify-start"}
+    className={role === "user" ? "flex justify-start" : "flex justify-end"}
   >
     <div
       className={cn(
         "max-w-[85%] px-4 py-2.5 text-sm leading-relaxed",
         role === "user"
-          ? "rounded-2xl rounded-bl-md bg-primary text-primary-foreground shadow-soft"
-          : "rounded-2xl rounded-br-md border border-border/60 bg-card text-foreground shadow-subtle"
+          ? "rounded-2xl rounded-tr-md bg-primary text-primary-foreground shadow-soft"
+          : "rounded-2xl rounded-tl-md border border-border/60 bg-card text-foreground shadow-subtle"
       )}
     >
-      <span className="whitespace-pre-wrap break-words">{content}</span>
+      {role === "user" ? (
+        <span dir="auto" className="whitespace-pre-wrap break-words">
+          {content}
+        </span>
+      ) : (
+        <RichMessage content={content} />
+      )}
     </div>
   </motion.div>
 );
@@ -42,6 +51,7 @@ const ChatMessageRow = ({ role, content }: ChatMessageRowProps) => (
 const ChatWidget = () => {
   const { settings } = usePlatformSettings();
   const { user } = useAuth();
+  const { theme } = useTheme();
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const { messages, loading, appendMessage, clearHistory } = useChatHistory(user?.id ?? null);
@@ -152,7 +162,7 @@ const ChatWidget = () => {
                 <MessageCircle className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <div className="text-sm font-bold text-foreground">مساعد موتيفيا</div>
+                <div className="text-sm font-bold text-foreground">موتيفيا بوت</div>
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   متصل وبيساعدك في المنصة
@@ -194,11 +204,13 @@ const ChatWidget = () => {
               ) : messages.length === 0 ? (
                 <div className="flex h-full flex-col items-center justify-center gap-5 text-center">
                   <div className="flex flex-col items-center gap-3 text-center">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                      <MessageCircle className="h-7 w-7" />
-                    </div>
+                    <img
+                      src={getLogoUrl(settings, theme)}
+                      alt="موتيفيا"
+                      className="h-16 w-auto max-w-[180px] object-contain"
+                    />
                     <p className="max-w-[260px] text-sm text-muted-foreground">
-                      أهلًا بك في مساعد موتيفيا. اسألني أي حاجة عن المنصة وهقولك تعملها إزاي بالظبط.
+                      أهلًا بك في موتيفيا بوت. اسألني أي حاجة عن المنصة وهقولك تعملها إزاي بالظبط.
                     </p>
                   </div>
                   <div className="flex w-full max-w-[300px] flex-col gap-2">
@@ -220,16 +232,19 @@ const ChatWidget = () => {
 
               {sending && (
                 <div className="flex justify-end">
-                  <div className="rounded-2xl rounded-br-md border border-border/60 bg-card px-4 py-3">
-                    <div className="flex gap-1">
-                      {[0, 1, 2].map((i) => (
-                        <motion.span
-                          key={i}
-                          className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60"
-                          animate={{ opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-                        />
-                      ))}
+                  <div className="rounded-2xl rounded-tl-md border border-border/60 bg-card px-4 py-3 shadow-subtle">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">موتيفيا بوت يفكر</span>
+                      <div className="flex gap-1">
+                        {[0, 1, 2].map((i) => (
+                          <motion.span
+                            key={i}
+                            className="h-1.5 w-1.5 rounded-full bg-primary/70"
+                            animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+                            transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

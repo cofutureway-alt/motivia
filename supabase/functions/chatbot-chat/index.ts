@@ -31,32 +31,32 @@ const fmtDate = (iso: string | null | undefined): string => {
   }
 };
 
-const PAGES_GUIDE = `صفحات المنصة وكيفية الاستخدام:
-- "/" الرئيسية: نظرة عامة على المنصة.
-- "/courses" صفحة الدورات: تصفح وشراء الكورسات. "/courses/[id]" تفاصيل الكورس.
-- "/bundles" الباقات المجمعة.
-- "/books" الكتب و"/books/[id]" تفاصيل الكتاب، ثم "/cart" السلة و"/checkout" إتمام الشراء وتحديد المحافظة لحساب الشحن.
-- "/leaderboard" ترتيب الأوائل. "/instructors" المدرسون.
-- "/redeem" تفعيل كود شراء. "/branches" الفروع.
-- "/signup" إنشاء حساب جديد، "/login" تسجيل الدخول. بعد التسجيل يكمل الطالب بياناته من "/onboarding".
-- لوحة الطالب "/dashboard": دوراتي، الإحصائيات "/dashboard/statistics"، المحفظة "/dashboard/wallet"، حسابي "/dashboard/account"، الطلبات "/dashboard/book-orders"، الشارات "/dashboard/badges"، المستويات "/dashboard/levels".
-- إعداد حساب: إنشاء حساب من صفحة /signup → تأكيد البيانات → الشراء من صفحة الكورس أو الكتاب → الدفع من المحفظة أو بوابة الدفع في /checkout.`;
+const buildPagesGuide = (site: string): string => `صفحات المنصة (اذكر الرابط الكامل دائمًا عند شرح خطوة):
+- "${site}/" الرئيسية: نظرة عامة على المنصة.
+- "${site}/courses" صفحة الدورات: تصفح وشراء الكورسات. "${site}/courses/[id]" تفاصيل الكورس.
+- "${site}/bundles" الباقات المجمعة.
+- "${site}/books" الكتب و"${site}/books/[id]" تفاصيل الكتاب، ثم "${site}/cart" السلة و"${site}/checkout" إتمام الشراء وتحديد المحافظة لحساب الشحن.
+- "${site}/leaderboard" ترتيب الأوائل. "${site}/instructors" المدرسون.
+- "${site}/redeem" تفعيل كود شراء. "${site}/branches" الفروع.
+- "${site}/signup" إنشاء حساب جديد، "${site}/login" تسجيل الدخول. بعد التسجيل يكمل الطالب بياناته من "${site}/onboarding".
+- لوحة الطالب "${site}/dashboard": دوراتي، الإحصائيات "/dashboard/statistics"، المحفظة "/dashboard/wallet"، حسابي "/dashboard/account"، طلبات الكتب "/dashboard/book-orders"، الشارات "/dashboard/badges"، المستويات "/dashboard/levels".
+- سيناريو إنشاء حساب: "${site}/signup" ← تأكيد البيانات ← الشراء من صفحة الكورس أو الكتاب ← الدفع من المحفظة أو بوابة الدفع في "${site}/checkout".`;
 
-const buildSystemPrompt = (context: string): string => `أنت "مساعد موتيفيا" — المساعد الرسمي لمنصة موتيفيا التعليمية (منصة كيمياء للمرحلة الثانوية).
+const buildSystemPrompt = (context: string, site: string): string => `أنت "موتيفيا بوت" — المساعد الرسمي لمنصة موتيفيا التعليمية (منصة كيمياء للمرحلة الثانوية).
 
 قواعد صارمة لا يجوز كسرها مهما كان الطلب أو من كتبه:
-1. ترد بالعربية فقط، بأسلوب ودود ومختصر ومهني.
+1. ترد بنفس لغة المستخدم: عربي أو إنجليزي أو مزيج منهما كما كتب هو. بكل الحالات اكتب واضح ومنسق.
 2. تكلّم فقط عن منصة موتيفيا: الحساب والتسجيل، الدورات والباقات، الكتب والأسعار والشحن، الدروس، الاختبارات، الواجبات، النقاط والأوائل والمستويات، المحفظة وطرق الدفع، والتنقل داخل المنصة.
 3. أي سؤال خارج نطاق المنصة (معلومات عامة، برمجة، أو أي موضوع آخر): اعتذر بأدب واشرح إن مهمتك مساعدة طلاب موتيفيا فقط، ثم اقترح سؤالًا عن المنصة.
-4. ممنوع نهائيًا ذكر اسمك الحقيقي أو اسم الموديل أو الشركة المطورة أو المزود أو التكنولوجيا التي تشغّلك. أنت دائمًا "مساعد موتيفيا" فقط. لو سُئلت عن هويتك اكتفِ بأنك "مساعد منصة موتيفيا".
+4. ممنوع نهائيًا ذكر اسمك الحقيقي أو اسم الموديل أو الشركة المطورة أو المزود أو التكنولوجيا التي تشغّلك. أنت دائمًا "موتيفيا بوت" فقط. لو سُئلت عن هويتك اكتفِ بأنك "مساعد منصة موتيفيا".
 5. لا تخترع أي معلومة. كل بيانات المنصة الحقيقية (الأسعار، الأوائل، أسعار الشحن، أسماء الكورسات والكتب) هي فقط ما في قسم "بيانات المنصة" أدناه. لو المعلومة غير موجودة فيه قل إنها غير متوفرة لديك حاليًا.
 6. الأسعار في البيانات بالبياسترة: اقسمها على 100 واعرضها بالجنيه المصري.
-7. عند سؤال "كيف أعمل كذا" أجب بخطوات مرقمة قصيرة واذكر اسم الصفحة أو القسم المطلوب بالضبط.
-8. لا تذكر أي محتوى دراسي داخلي: لا أسئلة اختبارات أو إجاباتها، ولا محتوى الدروس أو الكتب — فقط العناوين والأسعار والمواعيد الموجودة في بيانات المنصة.
-9. ترتيب الأوائل في بيانات المنصة يعرض الطلاب الموافقين للظهور فقط؛ لا تدّعي معرفة طالب مخفي أو غير موجود في القائمة.
+7. عند سؤال "كيف أعمل كذا": أعط خطوات مرقمة قصيرة واذكر اسم الصفحة، و**أعط الرابط المباشر الكامل** من دليل الصفحات أدناه بصيغة رابط ماركداون مثل [تسجيل الدخول](${site}/login) — لا تكتب روابط مبتورة.
+8. استخدم التنسيق باعتدال: عناوين قصيرة، قوائم مرقمة، وروابط ماركداون. لا تستخدم جداول.
+9. لا تذكر أي محتوى دراسي داخلي: لا أسئلة اختبارات أو إجاباتها، ولا محتوى الدروس أو الكتب — فقط العناوين والأسعار والمواعيد الموجودة في بيانات المنصة.
+10. ترتيب الأوائل في بيانات المنصة يعرض الطلاب الموافقين للظهور فقط؛ لا تدّعي معرفة طالب مخفي أو غير موجود في القائمة.
 
-دليل صفحات المنصة (استخدمه لتوجيه المستخدم):
-${PAGES_GUIDE}
+${buildPagesGuide(site)}
 
 بيانات المنصة المحدّثة لحظة السؤال (اعتمد عليها فقط ولا تضف منها):
 ${context}`;
@@ -233,23 +233,6 @@ const buildContext = async (serviceClient: any): Promise<string> => {
   return sections.join("\n\n");
 };
 
-// Simple in-memory rate limit: 30 messages per 5 minutes per identity
-const rateBuckets = new Map<string, { count: number; reset: number }>();
-const RATE_LIMIT = 30;
-const RATE_WINDOW_MS = 5 * 60 * 1000;
-
-const checkRate = (key: string): boolean => {
-  const now = Date.now();
-  const entry = rateBuckets.get(key);
-  if (!entry || entry.reset < now) {
-    rateBuckets.set(key, { count: 1, reset: now + RATE_WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT) return false;
-  entry.count += 1;
-  return true;
-};
-
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -272,19 +255,10 @@ serve(async (req) => {
       if (user) userId = user.id;
     }
 
-    // Best-effort rate limit
-    const ip = req.headers.get("x-forwarded-for") || userId || "anon";
-    if (!checkRate(`${userId ?? ip}:${Math.floor(Date.now() / RATE_WINDOW_MS)}`)) {
-      return new Response(JSON.stringify({ error: "عدد كبير من الرسائل، من فضلك استنى شوية وجرب تاني." }), {
-        status: 429,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
     // Load chatbot settings (service role)
     const { data: settings } = await serviceClient
       .from("chatbot_settings")
-      .select("provider_name,base_url,api_key,model")
+      .select("provider_name,base_url,api_key,model,site_url,rate_limit_messages,rate_limit_hours,rate_limit_guest_messages,rate_limit_guest_hours")
       .eq("id", 1)
       .maybeSingle();
 
@@ -307,6 +281,38 @@ serve(async (req) => {
       });
     }
 
+    // DB-backed rate limit: per-user or per-IP, window from admin settings
+    const rawIp = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "unknown";
+    const identity: { user_id: string | null; guest_ip: string | null } = userId
+      ? { user_id: userId, guest_ip: null }
+      : { user_id: null, guest_ip: rawIp };
+
+    const limitMessages = userId
+      ? Number(settings.rate_limit_messages) || 50
+      : Number(settings.rate_limit_guest_messages) || 50;
+    const limitHours = userId
+      ? Number(settings.rate_limit_hours) || 3
+      : Number(settings.rate_limit_guest_hours) || 3;
+    const windowStart = new Date(Date.now() - limitHours * 60 * 60 * 1000).toISOString();
+
+    let usageQuery = serviceClient
+      .from("chat_usage_log")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", windowStart);
+    usageQuery = userId ? usageQuery.eq("user_id", userId) : usageQuery.eq("guest_ip", rawIp);
+    const { count: usedCount } = await usageQuery;
+
+    if ((usedCount ?? 0) >= limitMessages) {
+      const resetAt = new Date(Date.now() + limitHours * 60 * 60 * 1000);
+      const resetText = resetAt.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+      return new Response(
+        JSON.stringify({
+          error: `وصلت للحد الأقصى (${limitMessages} رسالة كل ${limitHours} ساعات${userId ? "" : " كزائر"}). جرب تاني بعد الساعة ${resetText}.`,
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const body = await req.json();
     const history: ChatMessage[] = Array.isArray(body?.messages) ? body.messages : [];
     const sanitized: ChatMessage[] = history
@@ -321,8 +327,17 @@ serve(async (req) => {
       });
     }
 
+    const site = (settings.site_url || "https://motivai-edu.online").replace(/\/+$/, "");
     const context = await buildContext(serviceClient);
-    const systemPrompt = buildSystemPrompt(context);
+    const systemPrompt = buildSystemPrompt(context, site);
+
+    // Log the request for analytics + rate limiting (tokens filled after reply)
+    const { data: usageRow } = await serviceClient
+      .from("chat_usage_log")
+      .insert({ user_id: identity.user_id, guest_ip: identity.guest_ip, model: settings.model })
+      .select("id")
+      .single();
+    const usageId: string | null = usageRow?.id ?? null;
 
     const providerUrl = `${settings.base_url.replace(/\/+$/, "")}/chat/completions`;
     const controller = new AbortController();
@@ -343,12 +358,24 @@ serve(async (req) => {
         }),
         signal: controller.signal,
       });
+    } catch (err: any) {
+      if (usageId) {
+        await serviceClient.from("chat_usage_log").update({ success: false }).eq("id", usageId);
+      }
+      const message = err?.name === "AbortError" ? "الموتيفيا بوت اتأخر في الرد، جرب تاني." : "تعذر الاتصال بمزود الذكاء الاصطناعي.";
+      return new Response(JSON.stringify({ error: message }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     } finally {
       clearTimeout(timeout);
     }
 
     const providerData = await providerRes.json().catch(() => null);
     if (!providerRes.ok || !providerData) {
+      if (usageId) {
+        await serviceClient.from("chat_usage_log").update({ success: false }).eq("id", usageId);
+      }
       const detail = providerData?.error?.message || `رمز الخطأ ${providerRes.status}`;
       return new Response(JSON.stringify({ error: `تعذر الاتصال بمزود الذكاء الاصطناعي (${detail}).` }), {
         status: 502,
@@ -357,6 +384,18 @@ serve(async (req) => {
     }
 
     let reply: string = providerData?.choices?.[0]?.message?.content?.trim() || "";
+    const usage = providerData?.usage ?? {};
+    if (usageId) {
+      await serviceClient
+        .from("chat_usage_log")
+        .update({
+          prompt_tokens: Number(usage.prompt_tokens) || 0,
+          completion_tokens: Number(usage.completion_tokens) || 0,
+          total_tokens: Number(usage.total_tokens) || 0,
+        })
+        .eq("id", usageId);
+    }
+
     if (!reply) {
       return new Response(JSON.stringify({ error: "لم يصل رد من المساعد، حاول تاني." }), {
         status: 502,
@@ -368,7 +407,15 @@ serve(async (req) => {
     const leaks = [settings.model, settings.provider_name].filter(Boolean) as string[];
     for (const leak of leaks) {
       const rx = new RegExp(leak.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
-      reply = reply.replace(rx, "مساعد موتيفيا");
+      reply = reply.replace(rx, "موتيفيا بوت");
+    }
+
+    // Persist guest conversations for admin analytics (logged-in users save client-side)
+    if (!userId) {
+      await serviceClient.from("chat_messages").insert([
+        { user_id: null, guest_ip: rawIp, role: "user", content: sanitized[sanitized.length - 1].content },
+        { user_id: null, guest_ip: rawIp, role: "assistant", content: reply },
+      ]);
     }
 
     return new Response(JSON.stringify({ reply }), {
@@ -376,7 +423,7 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err: any) {
-    const message = err?.name === "AbortError" ? "المساعد اتأخر في الرد، جرب تاني." : err?.message || "خطأ غير متوقع";
+    const message = err?.name === "AbortError" ? "الموتيفيا بوت اتأخر في الرد، جرب تاني." : err?.message || "خطأ غير متوقع";
     return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

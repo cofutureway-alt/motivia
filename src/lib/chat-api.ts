@@ -40,6 +40,11 @@ export async function saveChatbotSettings(input: {
   base_url?: string;
   api_key?: string;
   model?: string;
+  site_url?: string;
+  rate_limit_messages?: number;
+  rate_limit_hours?: number;
+  rate_limit_guest_messages?: number;
+  rate_limit_guest_hours?: number;
 }): Promise<void> {
   const { data, error } = await supabase.functions.invoke("chatbot-admin", {
     body: { action: "save", ...input },
@@ -54,6 +59,23 @@ export interface ChatbotSettingsView {
   api_key_masked: string;
   has_api_key: boolean;
   model: string;
+  site_url: string;
+  rate_limit_messages: number;
+  rate_limit_hours: number;
+  rate_limit_guest_messages: number;
+  rate_limit_guest_hours: number;
+}
+
+export interface ChatbotUsageStats {
+  totals: {
+    requests: number;
+    success: number;
+    tokens: number;
+    users: number;
+    guests: number;
+  };
+  daily: { day: string; requests: number; tokens: number }[];
+  recent_questions: { content: string; created_at: string }[];
 }
 
 export async function getChatbotSettings(): Promise<ChatbotSettingsView | null> {
@@ -85,4 +107,33 @@ export async function testChatbotModel(): Promise<{
   });
   if (error) throw new Error(extractError(error) || "تعذر تجربة الموديل.");
   return data as { ok: boolean; sample?: string; latency_ms?: number; error?: string };
+}
+
+export async function getChatbotUsageStats(): Promise<ChatbotUsageStats> {
+  const { data, error } = await supabase.functions.invoke("chatbot-admin", {
+    body: { action: "stats" },
+  });
+  if (error) throw new Error(extractError(error) || "تعذر تحميل الإحصائيات.");
+  if ((data as any)?.error) throw new Error((data as any).error);
+  return data as ChatbotUsageStats;
+}
+
+/** LLM report over saved conversations (markdown + chart blocks). */
+export async function analyzeChatConversations(): Promise<string> {
+  const { data, error } = await supabase.functions.invoke("chatbot-admin", {
+    body: { action: "analyze" },
+  });
+  if (error) throw new Error(extractError(error) || "تعذر تنفيذ التحليل.");
+  if ((data as any)?.error) throw new Error((data as any).error);
+  return String((data as any)?.report ?? "");
+}
+
+/** Admin free-form question over saved conversations. */
+export async function askChatbotAnalyst(question: string): Promise<string> {
+  const { data, error } = await supabase.functions.invoke("chatbot-admin", {
+    body: { action: "admin_chat", question },
+  });
+  if (error) throw new Error(extractError(error) || "تعذر إرسال السؤال.");
+  if ((data as any)?.error) throw new Error((data as any).error);
+  return String((data as any)?.report ?? "");
 }
