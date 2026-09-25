@@ -125,8 +125,8 @@ export function usePlatformSettings() {
 
 export function getLogoUrl(settings: PlatformSettings, theme?: string): string {
   if (theme === "dark") {
-    return settings.logo_dark_url || settings.logo_light_url || "/dark-logo.png";
+    return settings.logo_dark_url || settings.logo_light_url || "/motivai-logo.png";
   }
-  return settings.logo_light_url || settings.logo_dark_url || "/light-logo.png";
+  return settings.logo_light_url || settings.logo_dark_url || "/motivai-logo.png";
 }
 

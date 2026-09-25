@@ -6,8 +6,6 @@ import { usePlatformSettings } from "@/hooks/use-platform-settings";
 import { useChatHistory, type ChatMsg } from "@/hooks/use-chat-history";
 import { sendChatMessage, type ChatMessagePayload } from "@/lib/chat-api";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useTheme } from "@/contexts/ThemeContext";
-import { getLogoUrl } from "@/hooks/use-platform-settings";
 import RichMessage from "@/components/chat/RichMessage";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +49,6 @@ const ChatMessageRow = ({ role, content }: ChatMessageRowProps) => (
 const ChatWidget = () => {
   const { settings } = usePlatformSettings();
   const { user } = useAuth();
-  const { theme } = useTheme();
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const { messages, loading, appendMessage, clearHistory } = useChatHistory(user?.id ?? null);
@@ -205,9 +202,9 @@ const ChatWidget = () => {
                 <div className="flex h-full flex-col items-center justify-center gap-5 text-center">
                   <div className="flex flex-col items-center gap-3 text-center">
                     <img
-                      src={getLogoUrl(settings, theme)}
-                      alt="موتيفيا"
-                      className="h-16 w-auto max-w-[180px] object-contain"
+                      src="/motivai-logo.png"
+                      alt="شعار Motivai"
+                      className="h-16 w-20 object-contain"
                     />
                     <p className="max-w-[260px] text-sm text-muted-foreground">
                       أهلًا بك في موتيفيا بوت. اسألني أي حاجة عن المنصة وهقولك تعملها إزاي بالظبط.
