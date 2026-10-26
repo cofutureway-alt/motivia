@@ -45,10 +45,17 @@ Deno.serve(async (req) => {
     // ── Enforce phone uniqueness ───────────────────────────────────────────
     const { data: existing } = await admin
       .from("profiles")
-      .select("id")
+      .select("id, role, full_name")
       .eq("phone_number", phone_number)
       .maybeSingle();
-    if (existing) return json({ error: "phone_taken" }, 409);
+    if (existing) {
+      return json({
+        error: "phone_taken",
+        message: `رقم الهاتف ${phone_number} مسجل بالفعل${
+          existing.full_name ? ` باسم "${existing.full_name}"` : ""
+        } (${existing.role}). استخدم رقمًا آخر، أو رقِّ هذا الحساب بدل إنشاء حساب جديد.`,
+      }, 409);
+    }
 
     // ── Create user via service role ───────────────────────────────────────
     const { data: created, error } = await admin.auth.admin.createUser({

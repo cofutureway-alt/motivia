@@ -90,13 +90,55 @@ export async function adminCreateInstructor(payload: CreateInstructorPayload): P
       permissions: payload.permissions,
     },
   });
-  if (error) throw error;
-  if ((data as any)?.error) {
-    const msg = (data as any).error;
-    if (msg === "phone_taken") throw new Error("رقم الهاتف مستخدم بالفعل");
-    throw new Error(msg);
+
+  if (error) {
+    // The function returns JSON like {"error":"phone_taken","message":"..."}.
+    // supabase-js only surfaces "non-2xx status code", so read the real body.
+    const detailed = await readFunctionErrorBody(error);
+    if (detailed?.message) throw new Error(detailed.message);
+    if (detailed?.error === "phone_taken") throw new Error("رقم الهاتف مستخدم بالفعل");
+    throw new Error(detailed?.error || extractFunctionsErrorMessage(error));
+  }
+
+  const body = data as any;
+  if (body?.error) {
+    if (body.message) throw new Error(body.message);
+    if (body.error === "phone_taken") throw new Error("رقم الهاتف مستخدم بالفعل");
+    throw new Error(body.error);
   }
   return data as { user_id: string };
+}
+
+/** Read the JSON error body that supabase-js hides behind a FunctionsHttpError. */
+async function readFunctionErrorBody(error: any): Promise<{ error?: string; message?: string } | null> {
+  try {
+    const response: Response | undefined = error?.context;
+    if (response && typeof response.clone === "function") {
+      const text = await response.clone().text();
+      if (text) return JSON.parse(text);
+    }
+  } catch {
+    /* body not readable — fall through */
+  }
+  return null;
+}
+
+function extractFunctionsErrorMessage(error: any): string {
+  const msg = typeof error === "string" ? error : error?.message || "";
+  try {
+    const start = msg.indexOf("{");
+    if (start >= 0) {
+      const parsed = JSON.parse(msg.slice(start));
+      if (typeof parsed?.message === "string") return parsed.message;
+      if (typeof parsed?.error === "string") return parsed.error;
+    }
+  } catch {
+    /* not json */
+  }
+  if (/non-2xx/i.test(msg)) {
+    return "تعذّر إنشاء الحساب. راجع البيانات وحاول تاني، أو تواصل مع الدعم لو المشكلة استمرت.";
+  }
+  return msg;
 }
 
 // ── Withdrawals (admin) ──────────────────────────────────────────────────────
